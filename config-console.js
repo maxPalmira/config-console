@@ -20,8 +20,8 @@
         style.id = 'config-console-styles';
         style.textContent = `
 /* ConfigConsole Embedded Styles - Compact Version */
-.config-console {
-    position: absolute;
+.config-console .config-console {
+    position: absolute !important;
     background: #2d2d2d;
     border: 1px solid #555;
     border-radius: 8px;
@@ -29,33 +29,33 @@
     overflow: hidden;
     min-width: 250px;
     min-height: 200px;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 1000 !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
-.config-header {
+.config-console .config-header {
     background: #404040;
     padding: 6px 10px;
-    display: flex;
+    display: flex !important;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #555;
     flex-shrink: 0;
 }
 
-.config-title {
+.config-console .config-title {
     font-size: 12px;
     font-weight: 500;
-    color: #ffffff;
-    display: flex;
+    color: #ffffff !important;
+    display: flex !important;
     align-items: center;
     gap: 12px;
 }
 
-.drag-icon {
+.config-console .drag-icon {
     cursor: move;
     color: #cccccc;
     font-size: 16px;
@@ -67,18 +67,18 @@
     letter-spacing: -2px;
 }
 
-.drag-icon:hover {
+.config-console .drag-icon:hover {
     background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    color: #ffffff !important;
     transform: scale(1.1);
 }
 
-.config-controls {
-    display: flex;
+.config-console .config-controls {
+    display: flex !important;
     gap: 4px;
 }
 
-.config-btn {
+.config-console .config-btn {
     background: transparent;
     border: none;
     color: #cccccc;
@@ -90,12 +90,12 @@
     font-weight: bold;
 }
 
-.config-btn:hover {
+.config-console .config-btn:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
-.config-content {
+.config-console .config-content {
     flex: 1;
     padding: 8px;
     overflow-y: auto;
@@ -103,15 +103,15 @@
 }
 
 /* Sections */
-.config-section {
+.config-console .config-section {
     margin-bottom: 12px;
 }
 
-.config-section:last-child {
+.config-console .config-section:last-child {
     margin-bottom: 0;
 }
 
-.section-title {
+.config-console .section-title {
     font-size: 10px;
     color: #aaaaaa;
     margin-bottom: 6px;
@@ -122,7 +122,7 @@
 }
 
 /* Logs */
-.log-container {
+.config-console .log-container {
     max-height: 150px;
     overflow-y: auto;
     background: #1a1a1a;
@@ -131,46 +131,46 @@
     padding: 8px;
 }
 
-.log-item {
+.config-console .log-item {
     font-size: 9px;
     font-family: 'Courier New', monospace;
     margin-bottom: 4px;
     padding: 2px 4px;
     border-radius: 2px;
-    display: flex;
+    display: flex !important;
     align-items: center;
     gap: 6px;
 }
 
-.log-item:last-child {
+.config-console .log-item:last-child {
     margin-bottom: 0;
 }
 
-.log-timestamp {
+.config-console .log-timestamp {
     color: #666666;
     flex-shrink: 0;
 }
 
-.log-info {
+.config-console .log-info {
     color: #87ceeb;
     background: rgba(135, 206, 235, 0.1);
 }
 
-.log-warning {
+.config-console .log-warning {
     color: #ffd700;
     background: rgba(255, 215, 0, 0.1);
 }
 
-.log-error {
+.config-console .log-error {
     color: #ff6b6b;
     background: rgba(255, 107, 107, 0.1);
 }
 
-.log-actions {
+.config-console .log-actions {
     margin-top: 8px;
 }
 
-.clear-logs-btn {
+.config-console .clear-logs-btn {
     background: #ff4444;
     color: white;
     border: none;
@@ -181,14 +181,14 @@
     transition: background 0.2s;
 }
 
-.clear-logs-btn:hover {
+.config-console .clear-logs-btn:hover {
     background: #ff6666;
 }
 
 /* Config Buttons */
-.config-button {
+.config-console .config-button {
     background: #404040;
-    color: #ffffff;
+    color: #ffffff !important;
     border: 1px solid #555;
     padding: 6px 10px;
     border-radius: 4px;
@@ -199,22 +199,22 @@
     margin-bottom: 4px;
 }
 
-.config-button:hover {
+.config-console .config-button:hover {
     background: #505050;
     border-color: #007acc;
 }
 
-.config-button:active {
+.config-console .config-button:active {
     background: #353535;
 }
 
-.config-button:last-child {
+.config-console .config-button:last-child {
     margin-bottom: 0;
 }
 
 /* Checkboxes */
-.checkbox-item {
-    display: flex;
+.config-console .checkbox-item {
+    display: flex !important;
     align-items: center;
     gap: 8px;
     padding: 4px;
@@ -224,11 +224,11 @@
     transition: background 0.2s;
 }
 
-.checkbox-item:hover {
+.config-console .checkbox-item:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.checkbox-item input[type="checkbox"] {
+.config-console .checkbox-item input[type="checkbox"] {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -240,14 +240,14 @@
     margin: 0;
 }
 
-.checkbox-item input[type="checkbox"]:checked {
+.config-console .checkbox-item input[type="checkbox"]:checked {
     background: #007acc;
     border-color: #007acc;
 }
 
-.checkbox-item input[type="checkbox"]:checked::before {
+.config-console .checkbox-item input[type="checkbox"]:checked::before {
     content: '✓';
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -256,7 +256,7 @@
     font-weight: bold;
 }
 
-.checkbox-label {
+.config-console .checkbox-label {
     font-size: 10px;
     color: #cccccc;
     cursor: pointer;
@@ -264,12 +264,12 @@
 }
 
 /* Radio Groups */
-.radio-group {
+.config-console .radio-group {
     margin-bottom: 6px;
 }
 
-.radio-item {
-    display: flex;
+.config-console .radio-item {
+    display: flex !important;
     align-items: center;
     gap: 8px;
     padding: 4px;
@@ -279,11 +279,11 @@
     transition: background 0.2s;
 }
 
-.radio-item:hover {
+.config-console .radio-item:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.radio-item input[type="radio"] {
+.config-console .radio-item input[type="radio"] {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -295,13 +295,13 @@
     margin: 0;
 }
 
-.radio-item input[type="radio"]:checked {
+.config-console .radio-item input[type="radio"]:checked {
     border-color: #007acc;
 }
 
-.radio-item input[type="radio"]:checked::before {
+.config-console .radio-item input[type="radio"]:checked::before {
     content: '';
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -311,7 +311,7 @@
     border-radius: 50%;
 }
 
-.radio-label {
+.config-console .radio-label {
     font-size: 10px;
     color: #cccccc;
     cursor: pointer;
@@ -319,8 +319,8 @@
 }
 
 /* Metrics */
-.metric-item {
-    display: flex;
+.config-console .metric-item {
+    display: flex !important;
     justify-content: space-between;
     align-items: center;
     padding: 4px 6px;
@@ -330,27 +330,27 @@
     font-size: 10px;
 }
 
-.metric-item:last-child {
+.config-console .metric-item:last-child {
     margin-bottom: 0;
 }
 
-.metric-label {
+.config-console .metric-label {
     color: #cccccc;
     font-weight: 500;
 }
 
-.metric-value {
+.config-console .metric-value {
     color: #87ceeb;
     font-family: 'Courier New', monospace;
     font-weight: bold;
 }
 
 /* Text Inputs */
-.input-item {
+.config-console .input-item {
     margin-bottom: 6px;
 }
 
-.input-label {
+.config-console .input-label {
     display: block;
     font-size: 10px;
     color: #aaaaaa;
@@ -358,47 +358,47 @@
     font-weight: 500;
 }
 
-.text-input {
+.config-console .text-input {
     width: 100%;
     background: #1a1a1a;
     border: 1px solid #555;
     border-radius: 4px;
     padding: 6px 8px;
     font-size: 10px;
-    color: #ffffff;
+    color: #ffffff !important;
     font-family: 'Courier New', monospace;
     transition: border-color 0.2s, background-color 0.2s;
     box-sizing: border-box;
 }
 
-.text-input:focus {
+.config-console .text-input:focus {
     outline: none;
     border-color: #007acc;
     background: #2a2a2a;
 }
 
-.text-input::placeholder {
+.config-console .text-input::placeholder {
     color: #666666;
     font-style: italic;
 }
 
 /* Collapsed State */
-.config-window.collapsed .config-content {
+.config-console .config-window.collapsed .config-content {
     display: none;
 }
 
-.config-window.collapsed {
+.config-console .config-window.collapsed {
     height: auto !important;
     min-height: auto !important;
 }
 
 /* Moveable.js Styling */
-.moveable-control-box .moveable-control {
+.config-console .moveable-control-box .moveable-control {
     background: transparent !important;
     border: none !important;
 }
 
-.moveable-control-box .moveable-control.moveable-se {
+.config-console .moveable-control-box .moveable-control.moveable-se {
     width: 12px !important;
     height: 12px !important;
     background: transparent !important;
@@ -408,34 +408,34 @@
     opacity: 0 !important;
 }
 
-.moveable-control-box .moveable-control.moveable-se:hover {
+.config-console .moveable-control-box .moveable-control.moveable-se:hover {
     opacity: 0 !important;
 }
 
-.moveable-line {
+.config-console .moveable-line {
     display: none !important;
 }
 
 /* Scrollbar Styling */
-.config-content::-webkit-scrollbar {
+.config-console .config-content::-webkit-scrollbar {
     width: 6px;
 }
 
-.config-content::-webkit-scrollbar-track {
+.config-console .config-content::-webkit-scrollbar-track {
     background: #1a1a1a;
 }
 
-.config-content::-webkit-scrollbar-thumb {
+.config-console .config-content::-webkit-scrollbar-thumb {
     background: #555;
     border-radius: 3px;
 }
 
-.config-content::-webkit-scrollbar-thumb:hover {
+.config-console .config-content::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
 
 /* Hidden State */
-.config-window.hidden {
+.config-console .config-window.hidden {
     display: none;
 }
 `;
