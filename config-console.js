@@ -19,9 +19,9 @@
         const style = document.createElement('style');
         style.id = 'config-console-styles';
         style.textContent = `
-/* ConfigConsole Embedded Styles - Compact Version */
-.config-console .config-console {
-    position: absolute !important;
+/* ConfigConsole Embedded Styles - High Specificity Version */
+.config-console {
+    position: absolute;
     background: #2d2d2d;
     border: 1px solid #555;
     border-radius: 8px;
@@ -29,17 +29,17 @@
     overflow: hidden;
     min-width: 250px;
     min-height: 200px;
-    display: flex !important;
+    display: flex;
     flex-direction: column;
-    z-index: 1000 !important;
+    z-index: 1000;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
 .config-console .config-header {
-    background: #404040;
+    background: #404040 !important;
     padding: 6px 10px;
-    display: flex !important;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #555;
@@ -47,16 +47,16 @@
 }
 
 .config-console .config-title {
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: 500;
-    color: #ffffff !important;
-    display: flex !important;
+    color: #ffffff;
+    display: flex;
     align-items: center;
     gap: 12px;
 }
 
 .config-console .drag-icon {
-    cursor: move;
+    cursor: move !important;
     color: #cccccc;
     font-size: 16px;
     font-weight: bold;
@@ -68,17 +68,17 @@
 }
 
 .config-console .drag-icon:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff;
     transform: scale(1.1);
 }
 
-.config-console .config-controls {
-    display: flex !important;
+.config-controls {
+    display: flex;
     gap: 4px;
 }
 
-.config-console .config-btn {
+.config-btn {
     background: transparent;
     border: none;
     color: #cccccc;
@@ -90,12 +90,12 @@
     font-weight: bold;
 }
 
-.config-console .config-btn:hover {
+.config-btn:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
-.config-console .config-content {
+.config-content {
     flex: 1;
     padding: 8px;
     overflow-y: auto;
@@ -103,15 +103,15 @@
 }
 
 /* Sections */
-.config-console .config-section {
+.config-section {
     margin-bottom: 12px;
 }
 
-.config-console .config-section:last-child {
+.config-section:last-child {
     margin-bottom: 0;
 }
 
-.config-console .section-title {
+.section-title {
     font-size: 10px;
     color: #aaaaaa;
     margin-bottom: 6px;
@@ -121,8 +121,73 @@
     padding-bottom: 3px;
 }
 
+/* Custom Groups */
+.config-console .config-group {
+    background: #353535;
+    border: 1px solid #555;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.config-console .config-group.collapsed .group-content {
+    display: none !important;
+}
+
+.config-console .group-header {
+    background: #404040;
+    padding: 8px 12px;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #555;
+}
+
+.config-console .group-header:hover {
+    background: #454545 !important;
+}
+
+.config-console .group-title {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.config-console .group-toggle {
+    color: #cccccc;
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.config-console .config-group.collapsed .group-toggle {
+    transform: rotate(-90deg);
+}
+
+.config-console .group-content {
+    padding: 10px 12px;
+}
+
+.config-console .group-content > * {
+    margin-bottom: 8px;
+}
+
+.config-console .group-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.config-console .group-description {
+    font-size: 9px !important;
+    color: #aaaaaa !important;
+    margin-bottom: 10px !important;
+    line-height: 1.4;
+}
+
 /* Logs */
-.config-console .log-container {
+.log-container {
     max-height: 150px;
     overflow-y: auto;
     background: #1a1a1a;
@@ -131,46 +196,46 @@
     padding: 8px;
 }
 
-.config-console .log-item {
+.log-item {
     font-size: 9px;
     font-family: 'Courier New', monospace;
     margin-bottom: 4px;
     padding: 2px 4px;
     border-radius: 2px;
-    display: flex !important;
+    display: flex;
     align-items: center;
     gap: 6px;
 }
 
-.config-console .log-item:last-child {
+.log-item:last-child {
     margin-bottom: 0;
 }
 
-.config-console .log-timestamp {
+.log-timestamp {
     color: #666666;
     flex-shrink: 0;
 }
 
-.config-console .log-info {
+.log-info {
     color: #87ceeb;
     background: rgba(135, 206, 235, 0.1);
 }
 
-.config-console .log-warning {
+.log-warning {
     color: #ffd700;
     background: rgba(255, 215, 0, 0.1);
 }
 
-.config-console .log-error {
+.log-error {
     color: #ff6b6b;
     background: rgba(255, 107, 107, 0.1);
 }
 
-.config-console .log-actions {
+.log-actions {
     margin-top: 8px;
 }
 
-.config-console .clear-logs-btn {
+.clear-logs-btn {
     background: #ff4444;
     color: white;
     border: none;
@@ -181,14 +246,14 @@
     transition: background 0.2s;
 }
 
-.config-console .clear-logs-btn:hover {
+.clear-logs-btn:hover {
     background: #ff6666;
 }
 
 /* Config Buttons */
-.config-console .config-button {
+.config-button {
     background: #404040;
-    color: #ffffff !important;
+    color: #ffffff;
     border: 1px solid #555;
     padding: 6px 10px;
     border-radius: 4px;
@@ -199,22 +264,22 @@
     margin-bottom: 4px;
 }
 
-.config-console .config-button:hover {
+.config-button:hover {
     background: #505050;
     border-color: #007acc;
 }
 
-.config-console .config-button:active {
+.config-button:active {
     background: #353535;
 }
 
-.config-console .config-button:last-child {
+.config-button:last-child {
     margin-bottom: 0;
 }
 
 /* Checkboxes */
-.config-console .checkbox-item {
-    display: flex !important;
+.checkbox-item {
+    display: flex;
     align-items: center;
     gap: 8px;
     padding: 4px;
@@ -224,11 +289,11 @@
     transition: background 0.2s;
 }
 
-.config-console .checkbox-item:hover {
+.checkbox-item:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.config-console .checkbox-item input[type="checkbox"] {
+.checkbox-item input[type="checkbox"] {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -240,14 +305,14 @@
     margin: 0;
 }
 
-.config-console .checkbox-item input[type="checkbox"]:checked {
+.checkbox-item input[type="checkbox"]:checked {
     background: #007acc;
     border-color: #007acc;
 }
 
-.config-console .checkbox-item input[type="checkbox"]:checked::before {
+.checkbox-item input[type="checkbox"]:checked::before {
     content: '✓';
-    position: absolute !important;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -256,7 +321,7 @@
     font-weight: bold;
 }
 
-.config-console .checkbox-label {
+.checkbox-label {
     font-size: 10px;
     color: #cccccc;
     cursor: pointer;
@@ -264,12 +329,12 @@
 }
 
 /* Radio Groups */
-.config-console .radio-group {
+.radio-group {
     margin-bottom: 6px;
 }
 
-.config-console .radio-item {
-    display: flex !important;
+.radio-item {
+    display: flex;
     align-items: center;
     gap: 8px;
     padding: 4px;
@@ -279,11 +344,11 @@
     transition: background 0.2s;
 }
 
-.config-console .radio-item:hover {
+.radio-item:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.config-console .radio-item input[type="radio"] {
+.radio-item input[type="radio"] {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -295,13 +360,13 @@
     margin: 0;
 }
 
-.config-console .radio-item input[type="radio"]:checked {
+.radio-item input[type="radio"]:checked {
     border-color: #007acc;
 }
 
-.config-console .radio-item input[type="radio"]:checked::before {
+.radio-item input[type="radio"]:checked::before {
     content: '';
-    position: absolute !important;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -311,7 +376,7 @@
     border-radius: 50%;
 }
 
-.config-console .radio-label {
+.radio-label {
     font-size: 10px;
     color: #cccccc;
     cursor: pointer;
@@ -319,8 +384,8 @@
 }
 
 /* Metrics */
-.config-console .metric-item {
-    display: flex !important;
+.metric-item {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 4px 6px;
@@ -330,27 +395,27 @@
     font-size: 10px;
 }
 
-.config-console .metric-item:last-child {
+.metric-item:last-child {
     margin-bottom: 0;
 }
 
-.config-console .metric-label {
+.metric-label {
     color: #cccccc;
     font-weight: 500;
 }
 
-.config-console .metric-value {
+.metric-value {
     color: #87ceeb;
     font-family: 'Courier New', monospace;
     font-weight: bold;
 }
 
 /* Text Inputs */
-.config-console .input-item {
+.input-item {
     margin-bottom: 6px;
 }
 
-.config-console .input-label {
+.input-label {
     display: block;
     font-size: 10px;
     color: #aaaaaa;
@@ -358,47 +423,47 @@
     font-weight: 500;
 }
 
-.config-console .text-input {
+.text-input {
     width: 100%;
     background: #1a1a1a;
     border: 1px solid #555;
     border-radius: 4px;
     padding: 6px 8px;
     font-size: 10px;
-    color: #ffffff !important;
+    color: #ffffff;
     font-family: 'Courier New', monospace;
     transition: border-color 0.2s, background-color 0.2s;
     box-sizing: border-box;
 }
 
-.config-console .text-input:focus {
+.text-input:focus {
     outline: none;
     border-color: #007acc;
     background: #2a2a2a;
 }
 
-.config-console .text-input::placeholder {
+.text-input::placeholder {
     color: #666666;
     font-style: italic;
 }
 
 /* Collapsed State */
-.config-console .config-window.collapsed .config-content {
+.config-window.collapsed .config-content {
     display: none;
 }
 
-.config-console .config-window.collapsed {
+.config-window.collapsed {
     height: auto !important;
     min-height: auto !important;
 }
 
 /* Moveable.js Styling */
-.config-console .moveable-control-box .moveable-control {
+.moveable-control-box .moveable-control {
     background: transparent !important;
     border: none !important;
 }
 
-.config-console .moveable-control-box .moveable-control.moveable-se {
+.moveable-control-box .moveable-control.moveable-se {
     width: 12px !important;
     height: 12px !important;
     background: transparent !important;
@@ -408,34 +473,34 @@
     opacity: 0 !important;
 }
 
-.config-console .moveable-control-box .moveable-control.moveable-se:hover {
+.moveable-control-box .moveable-control.moveable-se:hover {
     opacity: 0 !important;
 }
 
-.config-console .moveable-line {
+.moveable-line {
     display: none !important;
 }
 
 /* Scrollbar Styling */
-.config-console .config-content::-webkit-scrollbar {
+.config-content::-webkit-scrollbar {
     width: 6px;
 }
 
-.config-console .config-content::-webkit-scrollbar-track {
+.config-content::-webkit-scrollbar-track {
     background: #1a1a1a;
 }
 
-.config-console .config-content::-webkit-scrollbar-thumb {
+.config-content::-webkit-scrollbar-thumb {
     background: #555;
     border-radius: 3px;
 }
 
-.config-console .config-content::-webkit-scrollbar-thumb:hover {
+.config-content::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
 
 /* Hidden State */
-.config-console .config-window.hidden {
+.config-window.hidden {
     display: none;
 }
 `;
@@ -460,6 +525,7 @@
             this.isVisible = this.options.visible;
             this.isCollapsed = this.options.collapsed;
             this.sections = new Map();
+            this.groups = new Map();
             this.logCount = 0;
             this.radioGroups = new Map();
             
@@ -872,27 +938,106 @@
                 }
             }
             
-            return this;
+                    return this;
+    }
+
+    // Custom Group Methods
+    addGroup(groupName, options = {}) {
+        const {
+            description = '',
+            collapsed = false,
+            section = 'Groups'
+        } = options;
+
+        const sectionContainer = this.getOrCreateSection(section);
+        
+        // Create group container
+        const groupContainer = document.createElement('div');
+        groupContainer.className = 'config-group';
+        if (collapsed) {
+            groupContainer.classList.add('collapsed');
         }
         
-        addConfigButton(text, onClick, options = {}) {
-            const sectionName = options.section || 'Controls';
-            const section = this.getOrCreateSection(sectionName);
-            
+        // Create group header
+        const header = document.createElement('div');
+        header.className = 'group-header';
+        
+        const title = document.createElement('div');
+        title.className = 'group-title';
+        title.textContent = groupName;
+        
+        const toggle = document.createElement('div');
+        toggle.className = 'group-toggle';
+        toggle.innerHTML = '▼';
+        
+        header.appendChild(title);
+        header.appendChild(toggle);
+        
+        // Create group content
+        const content = document.createElement('div');
+        content.className = 'group-content';
+        
+        // Add description if provided
+        if (description) {
+            const desc = document.createElement('div');
+            desc.className = 'group-description';
+            desc.textContent = description;
+            content.appendChild(desc);
+        }
+        
+        // Add collapse/expand functionality
+        header.addEventListener('click', () => {
+            groupContainer.classList.toggle('collapsed');
+        });
+        
+        groupContainer.appendChild(header);
+        groupContainer.appendChild(content);
+        sectionContainer.appendChild(groupContainer);
+        
+        // Store group reference
+        this.groups.set(groupName, {
+            container: groupContainer,
+            content: content,
+            collapsed: collapsed
+        });
+        
+        return this;
+    }
+
+    getGroup(groupName) {
+        return this.groups.get(groupName);
+    }
+
+    addToGroup(groupName, element) {
+        const group = this.getGroup(groupName);
+        if (group) {
+            group.content.appendChild(element);
+        } else {
+            console.warn(`Group "${groupName}" not found. Creating default group.`);
+            this.addGroup(groupName);
+            this.addToGroup(groupName, element);
+        }
+        return this;
+    }
+
+    addConfigButton(text, onClick, options = {}) {
             const button = document.createElement('button');
             button.className = 'config-button';
             button.textContent = text;
             button.addEventListener('click', onClick);
             
-            section.appendChild(button);
+            if (options.group) {
+                this.addToGroup(options.group, button);
+            } else {
+                const sectionName = options.section || 'Controls';
+                const section = this.getOrCreateSection(sectionName);
+                section.appendChild(button);
+            }
             
             return this;
         }
         
         addCheckbox(label, checked = false, onChange, options = {}) {
-            const sectionName = options.section || 'Settings';
-            const section = this.getOrCreateSection(sectionName);
-            
             const container = document.createElement('div');
             container.className = 'checkbox-item';
             
@@ -916,14 +1061,18 @@
             container.appendChild(checkbox);
             container.appendChild(labelElement);
             
-            section.appendChild(container);
+            if (options.group) {
+                this.addToGroup(options.group, container);
+            } else {
+                const sectionName = options.section || 'Settings';
+                const section = this.getOrCreateSection(sectionName);
+                section.appendChild(container);
+            }
             
             return this;
         }
         
-        addRadioGroup(groupName, options, onChange) {
-            const section = this.getOrCreateSection('Settings');
-            
+        addRadioGroup(groupName, options, onChange, groupOptions = {}) {
             const groupContainer = document.createElement('div');
             groupContainer.className = 'radio-group';
             
@@ -960,16 +1109,19 @@
                 groupContainer.appendChild(container);
             });
             
-            section.appendChild(groupContainer);
+            if (groupOptions.group) {
+                this.addToGroup(groupOptions.group, groupContainer);
+            } else {
+                const section = this.getOrCreateSection('Settings');
+                section.appendChild(groupContainer);
+            }
+            
             this.radioGroups.set(groupName, groupContainer);
             
             return this;
         }
         
         addMetric(label, value, options = {}) {
-            const sectionName = options.section || 'Metrics';
-            const section = this.getOrCreateSection(sectionName);
-            
             const metric = document.createElement('div');
             metric.className = 'metric-item';
             metric.dataset.label = label;
@@ -985,15 +1137,18 @@
             metric.appendChild(labelElement);
             metric.appendChild(valueElement);
             
-            section.appendChild(metric);
+            if (options.group) {
+                this.addToGroup(options.group, metric);
+            } else {
+                const sectionName = options.section || 'Metrics';
+                const section = this.getOrCreateSection(sectionName);
+                section.appendChild(metric);
+            }
             
             return this;
         }
         
         addTextInput(label, value = '', onChange, options = {}) {
-            const sectionName = options.section || 'Inputs';
-            const section = this.getOrCreateSection(sectionName);
-            
             const container = document.createElement('div');
             container.className = 'input-item';
             
@@ -1020,7 +1175,13 @@
             container.appendChild(labelElement);
             container.appendChild(input);
             
-            section.appendChild(container);
+            if (options.group) {
+                this.addToGroup(options.group, container);
+            } else {
+                const sectionName = options.section || 'Inputs';
+                const section = this.getOrCreateSection(sectionName);
+                section.appendChild(container);
+            }
             
             return this;
         }
@@ -1069,6 +1230,7 @@
         clear() {
             this.content.innerHTML = '';
             this.sections.clear();
+            this.groups.clear();
             this.radioGroups.clear();
             this.logCount = 0;
             
