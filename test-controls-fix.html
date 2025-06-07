@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Console - Controls Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #007acc;
+        }
+        
+        .test-section {
+            background: #2d2d2d;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #87ceeb;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .test-btn {
+            background: #404040;
+            color: white;
+            border: 1px solid #666;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .test-btn:hover {
+            background: #505050;
+            border-color: #007acc;
+        }
+        
+        .test-btn.danger {
+            background: #cc4040;
+            border-color: #aa3333;
+        }
+        
+        .test-btn.danger:hover {
+            background: #dd5050;
+        }
+        
+        .status {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .warning { color: #ff9800; }
+        .info { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Config Console - Controls & Resize Fix Test</h1>
+        
+        <div class="test-section">
+            <h3>🎛️ Controls Test</h3>
+            <p>Test the collapse/minimize and close buttons functionality after various operations.</p>
+            
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testCollapseButton()">Test Collapse Button</button>
+                <button class="test-btn" onclick="testCloseButton()">Test Close Button</button>
+                <button class="test-btn" onclick="testAfterClear()">Test After Clear</button>
+                <button class="test-btn" onclick="testAfterGroupOps()">Test After Group Operations</button>
+                <button class="test-btn" onclick="showConsole()">Show Console</button>
+            </div>
+            
+            <div id="controls-status" class="status">
+                Ready to test controls...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📏 Resize & Position Test</h3>
+            <p>Test the resize and move functionality after programmatic position/size changes.</p>
+            
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testProgrammaticMove()">Test Programmatic Move</button>
+                <button class="test-btn" onclick="testProgrammaticResize()">Test Programmatic Resize</button>
+                <button class="test-btn" onclick="testAfterHideShow()">Test After Hide/Show</button>
+                <button class="test-btn" onclick="testMoveable()">Test Moveable Sync</button>
+                <button class="test-btn" onclick="resetPosition()">Reset Position</button>
+            </div>
+            
+            <div id="resize-status" class="status">
+                Ready to test resize & positioning...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧪 Stress Test</h3>
+            <p>Stress test with multiple operations to ensure reliability.</p>
+            
+            <div class="test-buttons">
+                <button class="test-btn" onclick="stressTestControls()">Stress Test Controls</button>
+                <button class="test-btn" onclick="stressTestResize()">Stress Test Resize</button>
+                <button class="test-btn" onclick="stressTestGroups()">Stress Test Groups</button>
+                <button class="test-btn danger" onclick="runFullStressTest()">Full Stress Test</button>
+            </div>
+            
+            <div id="stress-status" class="status">
+                Ready for stress testing...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Debug Info</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="debugControls()">Debug Controls</button>
+                <button class="test-btn" onclick="debugMoveable()">Debug Moveable</button>
+                <button class="test-btn" onclick="refreshMoveable()">Refresh Moveable</button>
+            </div>
+            
+            <div id="debug-status" class="status">
+                Debug information will appear here...
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Moveable.js -->
+    <script src="https://cdn.jsdelivr.net/npm/moveable@0.30.0/dist/moveable.min.js"></script>
+    
+    <!-- Load Config Console -->
+    <script src="./config-console.js"></script>
+
+    <script>
+        // Initialize Config Console
+        const console = new ConfigConsole({
+            title: 'Controls Fix Test',
+            position: { x: 100, y: 100 },
+            size: { width: 350, height: 400 },
+            collapsed: false,
+            autoSave: true
+        });
+
+        console.show();
+        
+        // Add some initial content
+        console.addGroup('Test Group 1', {
+            description: 'A test group for functionality testing'
+        });
+        
+        console.addConfigButton('Test Button', () => {
+            console.addLog('Test button clicked!', 'info');
+        }, { group: 'Test Group 1' });
+        
+        console.addCheckbox('Test Checkbox', false, (checked) => {
+            console.addLog(`Checkbox: ${checked}`, 'info');
+        }, { group: 'Test Group 1' });
+
+        // Helper functions
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<span class="${type}">[${new Date().toLocaleTimeString()}] ${message}</span>`;
+        }
+
+        function appendStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML += `<br><span class="${type}">[${new Date().toLocaleTimeString()}] ${message}</span>`;
+        }
+
+        // Controls Tests
+        function testCollapseButton() {
+            updateStatus('controls-status', 'Testing collapse button...', 'info');
+            
+            setTimeout(() => {
+                const collapseBtn = console.getElement().querySelector('.minimize-btn');
+                if (collapseBtn) {
+                    collapseBtn.click();
+                    appendStatus('controls-status', 'Collapse button clicked - check if window collapsed', 'success');
+                    
+                    setTimeout(() => {
+                        collapseBtn.click();
+                        appendStatus('controls-status', 'Collapse button clicked again - check if window expanded', 'success');
+                    }, 1000);
+                } else {
+                    appendStatus('controls-status', 'ERROR: Collapse button not found!', 'error');
+                }
+            }, 100);
+        }
+
+        function testCloseButton() {
+            updateStatus('controls-status', 'Testing close button...', 'info');
+            
+            setTimeout(() => {
+                const closeBtn = console.getElement().querySelector('.close-btn');
+                if (closeBtn) {
+                    closeBtn.click();
+                    appendStatus('controls-status', 'Close button clicked - window should hide', 'success');
+                    
+                    setTimeout(() => {
+                        console.show();
+                        appendStatus('controls-status', 'Window shown again via API', 'success');
+                    }, 2000);
+                } else {
+                    appendStatus('controls-status', 'ERROR: Close button not found!', 'error');
+                }
+            }, 100);
+        }
+
+        function testAfterClear() {
+            updateStatus('controls-status', 'Testing controls after clear operation...', 'info');
+            
+            console.clear();
+            appendStatus('controls-status', 'Console cleared', 'info');
+            
+            setTimeout(() => {
+                const collapseBtn = console.getElement().querySelector('.minimize-btn');
+                const closeBtn = console.getElement().querySelector('.close-btn');
+                
+                if (collapseBtn && closeBtn) {
+                    appendStatus('controls-status', 'Controls found after clear - testing click...', 'success');
+                    collapseBtn.click();
+                    appendStatus('controls-status', 'Collapse test after clear - SUCCESS', 'success');
+                } else {
+                    appendStatus('controls-status', 'ERROR: Controls missing after clear!', 'error');
+                }
+                
+                // Restore content
+                console.addGroup('Restored Group');
+                console.addConfigButton('Restored Button', () => {
+                    console.addLog('Restored button works!', 'info');
+                }, { group: 'Restored Group' });
+            }, 500);
+        }
+
+        function testAfterGroupOps() {
+            updateStatus('controls-status', 'Testing controls after group operations...', 'info');
+            
+            // Add and remove groups
+            for (let i = 0; i < 5; i++) {
+                console.addGroup(`Dynamic Group ${i}`);
+                console.addConfigButton(`Button ${i}`, () => {
+                    console.addLog(`Button ${i} clicked`, 'info');
+                }, { group: `Dynamic Group ${i}` });
+            }
+            
+            setTimeout(() => {
+                const collapseBtn = console.getElement().querySelector('.minimize-btn');
+                if (collapseBtn) {
+                    collapseBtn.click();
+                    appendStatus('controls-status', 'Controls work after group operations - SUCCESS', 'success');
+                } else {
+                    appendStatus('controls-status', 'ERROR: Controls broken after group operations!', 'error');
+                }
+            }, 500);
+        }
+
+        // Resize & Position Tests
+        function testProgrammaticMove() {
+            updateStatus('resize-status', 'Testing programmatic position changes...', 'info');
+            
+            const originalPos = { x: console.options.position.x, y: console.options.position.y };
+            
+            console.setPosition(300, 200);
+            appendStatus('resize-status', 'Moved to (300, 200)', 'info');
+            
+            setTimeout(() => {
+                console.setPosition(150, 300);
+                appendStatus('resize-status', 'Moved to (150, 300)', 'info');
+                
+                setTimeout(() => {
+                    console.setPosition(originalPos.x, originalPos.y);
+                    appendStatus('resize-status', 'Moved back to original position', 'success');
+                    appendStatus('resize-status', 'Try dragging now - it should work!', 'warning');
+                }, 1000);
+            }, 1000);
+        }
+
+        function testProgrammaticResize() {
+            updateStatus('resize-status', 'Testing programmatic size changes...', 'info');
+            
+            const originalSize = { width: console.options.size.width, height: console.options.size.height };
+            
+            console.setSize(500, 600);
+            appendStatus('resize-status', 'Resized to 500x600', 'info');
+            
+            setTimeout(() => {
+                console.setSize(300, 350);
+                appendStatus('resize-status', 'Resized to 300x350', 'info');
+                
+                setTimeout(() => {
+                    console.setSize(originalSize.width, originalSize.height);
+                    appendStatus('resize-status', 'Resized back to original size', 'success');
+                    appendStatus('resize-status', 'Try resizing now - it should work!', 'warning');
+                }, 1000);
+            }, 1000);
+        }
+
+        function testAfterHideShow() {
+            updateStatus('resize-status', 'Testing resize after hide/show...', 'info');
+            
+            console.hide();
+            appendStatus('resize-status', 'Window hidden', 'info');
+            
+            setTimeout(() => {
+                console.show();
+                appendStatus('resize-status', 'Window shown', 'info');
+                
+                setTimeout(() => {
+                    appendStatus('resize-status', 'Try resizing and dragging now!', 'warning');
+                }, 500);
+            }, 2000);
+        }
+
+        function testMoveable() {
+            updateStatus('resize-status', 'Testing Moveable instance...', 'info');
+            
+            if (console.moveable) {
+                appendStatus('resize-status', 'Moveable instance exists', 'success');
+                console.moveable.updateRect();
+                appendStatus('resize-status', 'updateRect() called', 'success');
+                console.refreshMoveable();
+                appendStatus('resize-status', 'refreshMoveable() called', 'success');
+            } else {
+                appendStatus('resize-status', 'ERROR: No Moveable instance!', 'error');
+            }
+        }
+
+        function resetPosition() {
+            console.setPosition(100, 100);
+            console.setSize(350, 400);
+            updateStatus('resize-status', 'Position and size reset to defaults', 'success');
+        }
+
+        // Stress Tests
+        function stressTestControls() {
+            updateStatus('stress-status', 'Starting controls stress test...', 'info');
+            
+            let clicks = 0;
+            const maxClicks = 20;
+            
+            const interval = setInterval(() => {
+                const collapseBtn = console.getElement().querySelector('.minimize-btn');
+                if (collapseBtn) {
+                    collapseBtn.click();
+                    clicks++;
+                    appendStatus('stress-status', `Collapse click ${clicks}/${maxClicks}`, 'info');
+                    
+                    if (clicks >= maxClicks) {
+                        clearInterval(interval);
+                        appendStatus('stress-status', 'Controls stress test completed - SUCCESS!', 'success');
+                    }
+                } else {
+                    clearInterval(interval);
+                    appendStatus('stress-status', 'ERROR: Controls failed during stress test!', 'error');
+                }
+            }, 200);
+        }
+
+        function stressTestResize() {
+            updateStatus('stress-status', 'Starting resize stress test...', 'info');
+            
+            let operations = 0;
+            const maxOps = 10;
+            
+            const interval = setInterval(() => {
+                const newWidth = 300 + Math.random() * 200;
+                const newHeight = 400 + Math.random() * 200;
+                const newX = 50 + Math.random() * 300;
+                const newY = 50 + Math.random() * 200;
+                
+                console.setSize(newWidth, newHeight);
+                console.setPosition(newX, newY);
+                
+                operations++;
+                appendStatus('stress-status', `Resize operation ${operations}/${maxOps}`, 'info');
+                
+                if (operations >= maxOps) {
+                    clearInterval(interval);
+                    resetPosition();
+                    appendStatus('stress-status', 'Resize stress test completed - SUCCESS!', 'success');
+                }
+            }, 500);
+        }
+
+        function stressTestGroups() {
+            updateStatus('stress-status', 'Starting groups stress test...', 'info');
+            
+            console.clear();
+            
+            // Create many groups rapidly
+            for (let i = 0; i < 10; i++) {
+                console.addGroup(`Stress Group ${i}`, {
+                    description: `Test group ${i} for stress testing`,
+                    collapsed: i % 2 === 0
+                });
+                
+                for (let j = 0; j < 3; j++) {
+                    console.addConfigButton(`Button ${i}-${j}`, () => {
+                        console.addLog(`Stress button ${i}-${j} clicked`, 'info');
+                    }, { group: `Stress Group ${i}` });
+                }
+            }
+            
+            setTimeout(() => {
+                // Test group expand/collapse
+                const groups = console.getElement().querySelectorAll('.group-header');
+                let groupClicks = 0;
+                
+                groups.forEach((header, index) => {
+                    setTimeout(() => {
+                        header.click();
+                        groupClicks++;
+                        appendStatus('stress-status', `Group click ${groupClicks}/${groups.length}`, 'info');
+                        
+                        if (groupClicks === groups.length) {
+                            appendStatus('stress-status', 'Groups stress test completed - SUCCESS!', 'success');
+                        }
+                    }, index * 100);
+                });
+            }, 1000);
+        }
+
+        function runFullStressTest() {
+            updateStatus('stress-status', 'Starting FULL stress test...', 'warning');
+            
+            stressTestControls();
+            
+            setTimeout(() => {
+                stressTestResize();
+            }, 5000);
+            
+            setTimeout(() => {
+                stressTestGroups();
+            }, 10000);
+            
+            setTimeout(() => {
+                appendStatus('stress-status', '🎉 FULL STRESS TEST COMPLETED! 🎉', 'success');
+            }, 15000);
+        }
+
+        // Debug Functions
+        function debugControls() {
+            console.testControls();
+            updateStatus('debug-status', 'Debug info logged to browser console', 'success');
+        }
+
+        function debugMoveable() {
+            updateStatus('debug-status', 'Moveable debug info:', 'info');
+            appendStatus('debug-status', `Moveable exists: ${!!console.moveable}`, 'info');
+            appendStatus('debug-status', `Current position: ${JSON.stringify(console.options.position)}`, 'info');
+            appendStatus('debug-status', `Current size: ${JSON.stringify(console.options.size)}`, 'info');
+            appendStatus('debug-status', `Is visible: ${console.isVisible}`, 'info');
+            appendStatus('debug-status', `Is collapsed: ${console.isCollapsed}`, 'info');
+        }
+
+        function refreshMoveable() {
+            console.refreshMoveable();
+            updateStatus('debug-status', 'Moveable instance refreshed', 'success');
+        }
+
+        function showConsole() {
+            console.show();
+            updateStatus('controls-status', 'Console shown via API', 'success');
+        }
+
+        // Initial status
+        updateStatus('controls-status', 'Config Console initialized and ready for testing', 'success');
+        updateStatus('resize-status', 'Resize functionality ready for testing', 'success');
+        updateStatus('stress-status', 'Stress tests ready to run', 'success');
+    </script>
+</body>
+</html> 

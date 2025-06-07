@@ -576,17 +576,15 @@
             
             // Minimize/collapse button
             const minimizeBtn = document.createElement('button');
-            minimizeBtn.className = 'config-btn';
+            minimizeBtn.className = 'config-btn minimize-btn';
             minimizeBtn.innerHTML = '−';
             minimizeBtn.title = 'Minimize';
-            minimizeBtn.addEventListener('click', () => this.toggleCollapse());
             
             // Close button
             const closeBtn = document.createElement('button');
-            closeBtn.className = 'config-btn';
+            closeBtn.className = 'config-btn close-btn';
             closeBtn.innerHTML = '×';
             closeBtn.title = 'Close';
-            closeBtn.addEventListener('click', () => this.hide());
             
             controls.appendChild(minimizeBtn);
             controls.appendChild(closeBtn);
@@ -622,6 +620,9 @@
             // Add to DOM
             document.body.appendChild(this.window);
             
+            // Setup event delegation for header controls
+            this.setupEventDelegation();
+            
             // Setup Moveable
             this.setupMoveable();
             
@@ -631,7 +632,52 @@
             return this;
         }
         
+        refreshMoveable() {
+            // Refresh Moveable instance to fix any sync issues
+            if (this.moveable && this.window) {
+                this.setupMoveable();
+                this.setupAutoSave();
+            }
+            return this;
+        }
+        
+        setupEventDelegation() {
+            // Use event delegation for header controls to ensure they always work
+            this.window.addEventListener('click', (e) => {
+                // Handle minimize button
+                if (e.target.classList.contains('minimize-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.toggleCollapse();
+                }
+                
+                // Handle close button  
+                if (e.target.classList.contains('close-btn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.hide();
+                }
+                
+                // Handle group header clicks
+                if (e.target.classList.contains('group-header') || e.target.parentElement?.classList.contains('group-header')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Find the group container
+                    let groupContainer = e.target.closest('.config-group');
+                    if (groupContainer) {
+                        groupContainer.classList.toggle('collapsed');
+                    }
+                }
+            });
+        }
+        
         setupMoveable() {
+            // Destroy existing moveable if it exists
+            if (this.moveable) {
+                this.moveable.destroy();
+            }
+            
             this.moveable = new Moveable(document.body, {
                 target: this.window,
                 draggable: true,
@@ -655,6 +701,7 @@
             this.moveable.on("drag", ({ target, left, top }) => {
                 target.style.left = `${left}px`;
                 target.style.top = `${top}px`;
+                this.options.position = { x: left, y: top };
             });
             
             // Handle resize events
@@ -667,6 +714,7 @@
                 
                 target.style.width = `${newWidth}px`;
                 target.style.height = `${newHeight}px`;
+                this.options.size = { width: newWidth, height: newHeight };
             });
         }
         
@@ -801,9 +849,12 @@
             this.isVisible = true;
             this.window.classList.remove('hidden');
             
-            // Update moveable target visibility
+            // Update moveable target visibility with small delay to ensure DOM is ready
             if (this.moveable) {
-                this.moveable.updateTarget();
+                setTimeout(() => {
+                    this.moveable.updateTarget();
+                    this.moveable.updateRect();
+                }, 10);
             }
             
             // Auto-save visibility state
@@ -985,10 +1036,7 @@
             content.appendChild(desc);
         }
         
-        // Add collapse/expand functionality
-        header.addEventListener('click', () => {
-            groupContainer.classList.toggle('collapsed');
-        });
+        // Collapse/expand functionality is handled by event delegation in setupEventDelegation()
         
         groupContainer.appendChild(header);
         groupContainer.appendChild(content);
@@ -1216,6 +1264,11 @@
             this.window.style.top = `${y}px`;
             this.options.position = { x, y };
             
+            // Update Moveable if it exists
+            if (this.moveable) {
+                this.moveable.updateRect();
+            }
+            
             return this;
         }
         
@@ -1223,6 +1276,11 @@
             this.window.style.width = `${width}px`;
             this.window.style.height = `${height}px`;
             this.options.size = { width, height };
+            
+            // Update Moveable if it exists
+            if (this.moveable) {
+                this.moveable.updateRect();
+            }
             
             return this;
         }
@@ -1342,6 +1400,17 @@
         
         isHidden() {
             return !this.isVisible;
+        }
+        
+        // Test/Debug method to verify functionality
+        testControls() {
+            console.log('Testing Config Console controls...');
+            console.log('Minimize button:', this.window.querySelector('.minimize-btn'));
+            console.log('Close button:', this.window.querySelector('.close-btn'));
+            console.log('Moveable instance:', this.moveable);
+            console.log('Current position:', this.options.position);
+            console.log('Current size:', this.options.size);
+            return this;
         }
     }
 
