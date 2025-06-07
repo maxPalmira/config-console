@@ -1,0 +1,44 @@
+{
+  "name": "config-console",
+  "version": "1.0.0",
+  "description": "A draggable, resizable configuration panel for web applications with localStorage state persistence",
+  "main": "config-console.js",
+  "files": [
+    "config-console.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "debug",
+    "window",
+    "panel",
+    "draggable",
+    "resizable",
+    "ui",
+    "web",
+    "javascript",
+    "localstorage",
+    "developer-tools"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/config-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/config-console/issues"
+  },
+  "homepage": "https://github.com/yourusername/config-console#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "moveable": "^0.30.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browser": "config-console.js"
+} 
